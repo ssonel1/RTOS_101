@@ -62,6 +62,7 @@ Drivers
 .mxproject
 .project
 RTOS_101.ioc
+Debug
 
 
 # End of https://www.toptal.com/developers/gitignore/api/c
