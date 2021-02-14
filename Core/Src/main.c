@@ -1,8 +1,10 @@
-
 #include "main.h"
 
-
 void SystemClock_Config(void);
+
+void userButtonConfig(void);
+GPIO_InitTypeDef sButton;
+
 
 /**
   * @brief  The application entry point.
@@ -10,12 +12,13 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
   /* Configure the system clock */
   SystemClock_Config();
+
+  userButtonConfig();
 
 
   /* Infinite loop */
@@ -24,6 +27,29 @@ int main(void)
   {
 
   }
+}
+
+
+void userButtonConfig(void)
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+
+	sButton.Pin = GPIO_PIN_0;
+	sButton.Mode = GPIO_MODE_IT_RISING;
+	sButton.Speed = GPIO_SPEED_FREQ_LOW;
+	sButton.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(GPIOA, &sButton);
+
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	/* comes here when pressed to button */
+
+
 }
 
 /**
