@@ -1,13 +1,13 @@
 #include "main.h"
 
 void SystemClock_Config(void);
+void hardFaultCallBack(void);
 
 void userButtonConfig(void);
 GPIO_InitTypeDef sButton;
 
 void LEDsConfig(void);
 GPIO_InitTypeDef sLEDs;
-
 
 /**
   * @brief  The application entry point.
@@ -23,7 +23,6 @@ int main(void)
 
   userButtonConfig();
   LEDsConfig();
-
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -70,6 +69,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
 	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+}
+
+void hardFaultCallBack(void)
+{
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+
+	while(1)
+	{
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		HAL_Delay(500);
+	}
 }
 
 /**

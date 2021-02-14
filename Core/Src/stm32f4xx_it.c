@@ -7,6 +7,8 @@
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
+extern void hardFaultCallBack(void);
+
 
 void EXTI0_IRQHandler(void)
 {
@@ -36,7 +38,7 @@ void HardFault_Handler(void)
 
   while (1)
   {
-
+	  hardFaultCallBack();
   }
 }
 
