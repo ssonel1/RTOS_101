@@ -63,6 +63,7 @@ Drivers
 .project
 RTOS_101.ioc
 Debug
+RTOS_101.launch
 
 
 # End of https://www.toptal.com/developers/gitignore/api/c
