@@ -7,15 +7,6 @@
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
-extern void hardFaultCallBack(void);
-
-
-void EXTI0_IRQHandler(void)
-{
-	HAL_Delay(200); //button debounce
-	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-}
-
 
 
 /**
@@ -38,7 +29,7 @@ void HardFault_Handler(void)
 
   while (1)
   {
-	  hardFaultCallBack();
+
   }
 }
 
@@ -78,13 +69,13 @@ void UsageFault_Handler(void)
   }
 }
 
-/**
-  * @brief This function handles System service call via SWI instruction.
-  */
-void SVC_Handler(void)
-{
-
-}
+///**
+//  * @brief This function handles System service call via SWI instruction.
+//  */
+//void SVC_Handler(void)
+//{
+//
+//}
 
 /**
   * @brief This function handles Debug monitor.
@@ -94,23 +85,23 @@ void DebugMon_Handler(void)
 
 }
 
-/**
-  * @brief This function handles Pendable request for system service.
-  */
-void PendSV_Handler(void)
-{
+///**
+//  * @brief This function handles Pendable request for system service.
+//  */
+//void PendSV_Handler(void)
+//{
+//
+//}
 
-}
-
-/**
-  * @brief This function handles System tick timer.
-  */
-void SysTick_Handler(void)
-{
-
-  HAL_IncTick();
-
-}
+///**
+//  * @brief This function handles System tick timer.
+//  */
+//void SysTick_Handler(void)
+//{
+//
+//  HAL_IncTick();
+//
+//}
 
 /******************************************************************************/
 /* STM32F4xx Peripheral Interrupt Handlers                                    */

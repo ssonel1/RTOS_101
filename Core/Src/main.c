@@ -1,13 +1,6 @@
 #include "main.h"
 
 void SystemClock_Config(void);
-void hardFaultCallBack(void);
-
-void userButtonConfig(void);
-GPIO_InitTypeDef sButton;
-
-void LEDsConfig(void);
-GPIO_InitTypeDef sLEDs;
 
 /**
   * @brief  The application entry point.
@@ -21,9 +14,6 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-  userButtonConfig();
-  LEDsConfig();
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -32,58 +22,6 @@ int main(void)
   }
 }
 
-
-void userButtonConfig(void)
-{
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-
-	sButton.Pin = GPIO_PIN_0;
-	sButton.Mode = GPIO_MODE_IT_RISING;
-	sButton.Speed = GPIO_SPEED_FREQ_LOW;
-	sButton.Pull = GPIO_NOPULL;
-
-	HAL_GPIO_Init(GPIOA, &sButton);
-
-	HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 1);
-	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-}
-
-
-void LEDsConfig(void)
-{
-	__HAL_RCC_GPIOD_CLK_ENABLE();
-
-	sLEDs.Mode = GPIO_MODE_OUTPUT_PP;
-	sLEDs.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
-	sLEDs.Speed = GPIO_SPEED_FREQ_LOW;
-	sLEDs.Pull = GPIO_NOPULL;
-
-	HAL_GPIO_Init(GPIOD, &sLEDs);
-}
-
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	/* comes here when button pressed */
-	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-}
-
-void hardFaultCallBack(void)
-{
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-
-	while(1)
-	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-		HAL_Delay(500);
-	}
-}
 
 /**
   * @brief System Clock Configuration
