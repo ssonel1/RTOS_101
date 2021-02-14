@@ -5,6 +5,9 @@ void SystemClock_Config(void);
 void userButtonConfig(void);
 GPIO_InitTypeDef sButton;
 
+void LEDsConfig(void);
+GPIO_InitTypeDef sLEDs;
+
 
 /**
   * @brief  The application entry point.
@@ -19,6 +22,7 @@ int main(void)
   SystemClock_Config();
 
   userButtonConfig();
+  LEDsConfig();
 
 
   /* Infinite loop */
@@ -41,15 +45,31 @@ void userButtonConfig(void)
 
 	HAL_GPIO_Init(GPIOA, &sButton);
 
-	HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 1);
 	HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 }
 
+
+void LEDsConfig(void)
+{
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+
+	sLEDs.Mode = GPIO_MODE_OUTPUT_PP;
+	sLEDs.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+	sLEDs.Speed = GPIO_SPEED_FREQ_LOW;
+	sLEDs.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(GPIOD, &sLEDs);
+}
+
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	/* comes here when pressed to button */
-
-
+	/* comes here when button pressed */
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 }
 
 /**
